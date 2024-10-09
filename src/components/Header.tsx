@@ -1,4 +1,4 @@
-import { useSelected } from "./SelectedContext";
+import { useSelected } from "../SelectedContext";
 
 interface HeaderProps {
   name: string;
