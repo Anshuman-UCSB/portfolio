@@ -1,4 +1,3 @@
-import "./App.css";
 import topLeft from "./assets/top left.svg";
 import bottomRight from "./assets/bottom right.svg";
 
@@ -9,14 +8,16 @@ function App() {
         <img
           src={topLeft}
           alt="Top left svg"
-          className="absolute top-0 left-0 w-16 h-16"
+          className="absolute top-0 left-0 w-16 h-16 fill-red-400"
         />
+
         <img
           src={bottomRight}
           alt="Bottom right svg"
-          className="absolute bottom-0 right-0 w-16 h-16"
+          className="absolute bottom-0 right-0 w-16 h-16 fill-darkbrown"
         />
-        <p className="font-bold text-5xl">Anshuman Dash</p>
+        <p className="font-bold text-5xl text-darkbrown">Anshuman Dash</p>
+        <p className="font-semibold text-2xl text-faded">About</p>
       </div>
     </div>
   );

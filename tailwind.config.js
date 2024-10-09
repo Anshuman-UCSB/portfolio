@@ -8,6 +8,8 @@ export default {
     extend: {
       colors: {
         cream: '#FAECD2',
+        darkbrown: '#4d4637',
+        faded: '#b3aa99',
       },
     },
   },
