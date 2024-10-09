@@ -16,7 +16,7 @@ function App() {
           alt="Bottom right svg"
           className="absolute bottom-0 right-0 w-16 h-16"
         />
-        <h1>Hello world</h1>
+        <p className="font-bold text-5xl">Anshuman Dash</p>
       </div>
     </div>
   );
