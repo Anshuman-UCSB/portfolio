@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg id="svg2" viewBox="0 0 200 200" style="" xmlns="http://www.w3.org/2000/svg" xmlns:bx="https://boxy-svg.com">
+  <desc>Source: openclipart.org/detail/209545</desc>
+  <defs>
+    <style bx:fonts="Poppins">@import url(https://fonts.googleapis.com/css2?family=Poppins%3Aital%2Cwght%400%2C100%3B0%2C200%3B0%2C300%3B0%2C400%3B0%2C500%3B0%2C600%3B0%2C700%3B0%2C800%3B0%2C900%3B1%2C100%3B1%2C200%3B1%2C300%3B1%2C400%3B1%2C500%3B1%2C600%3B1%2C700%3B1%2C800%3B1%2C900&amp;display=swap);</style>
+  </defs>
+  <path style="stroke: rgb(0, 0, 0); fill: rgb(250, 236, 210); stroke-width: 3px;" d="M 20 0 H 200 V 180 A 20 20 0 0 1 180 200 H 0 V 20 A 20 20 0 0 1 20 0 Z" bx:shape="rect 0 0 200 200 20 0 20 0 1@536ee5aa"/>
+  <text style="fill: rgb(77, 70, 55); font-family: Poppins; font-size: 128px; font-weight: 700; letter-spacing: -3.2px; white-space: pre; text-anchor: middle;" transform="matrix(0.885255, 0, 0, 0.888077, -32.872696, -244.761234)" x="148.035" y="429.763">AD</text>
+</svg>
