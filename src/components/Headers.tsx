@@ -25,9 +25,11 @@ function Headers() {
     <>
       <p className="font-bold text-5xl text-darkbrown">Anshuman Dash</p>
       <div className="px-6 py-2 w-auto flex flex-col items-start">
-        <Header name="ABOUT" />
-        <Header name="PROJECTS" />
-        <Header name="CONTACT" />
+        {["ABOUT", "PROJECTS", "CONTACT"].map((name) => (
+          <div className="animate-fade-in animation-delay-700 opacity-0">
+            <Header key={name} name={name} />
+          </div>
+        ))}
       </div>
     </>
   );

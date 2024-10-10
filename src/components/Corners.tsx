@@ -7,13 +7,13 @@ function Corners() {
       <img
         src={topLeft}
         alt="Top left svg"
-        className="absolute top-0 left-0 w-16 h-16 fill-red-400"
+        className="fixed top-12 left-12 w-16 h-16 fill-red-400 animate-from-top-left"
       />
 
       <img
         src={bottomRight}
         alt="Bottom right svg"
-        className="absolute bottom-0 right-0 w-16 h-16 fill-darkbrown"
+        className="fixed bottom-12 right-12 w-16 h-16 fill-darkbrown animate-from-bottom-right"
       />
     </>
   );
