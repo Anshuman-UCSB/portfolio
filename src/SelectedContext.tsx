@@ -10,7 +10,7 @@ const SelectedContext = createContext<SelectedContextProps | undefined>(
 );
 
 export const SelectedProvider = ({ children }: { children: ReactNode }) => {
-  const [selected, setSelected] = useState("ABOUT");
+  const [selected, setSelected] = useState("");
   return (
     <SelectedContext.Provider value={{ selected, setSelected }}>
       {children}
