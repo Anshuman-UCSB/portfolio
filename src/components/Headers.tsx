@@ -1,5 +1,4 @@
 import { useSelected } from "../SelectedContext";
-import { useState, useEffect } from "react";
 
 interface HeaderProps {
   name: string;
