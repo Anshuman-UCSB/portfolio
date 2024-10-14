@@ -7,7 +7,8 @@ interface HeaderProps {
 
 function Header({ name, subsections }: HeaderProps) {
   const { selected, setSelected } = useSelected();
-  const isSelected = selected === name;
+  const isSelected =
+    selected === name || (subsections && subsections.includes(selected));
 
   return (
     <div
@@ -16,7 +17,7 @@ function Header({ name, subsections }: HeaderProps) {
       }`}
     >
       <p
-        className={`cursor-pointer inline-block transition-all duration-500 ease-in-o"_dieut font-semibold text-5xl ${
+        className={`cursor-pointer inline-block transition-all duration-500 ease-in-out font-semibold text-5xl hover:text-darkbrown ${
           isSelected ? "text-darkbrown" : "text-faded"
         }`}
         onClick={() => setSelected(name)}
@@ -29,8 +30,12 @@ function Header({ name, subsections }: HeaderProps) {
           {subsections.map((sub, index) => (
             <p
               key={sub}
-              className="cursor-pointer text-2xl text-faded transition-all duration-500 ease-in-out hover:text-darkbrown"
+              className={`cursor-pointer text-2xl transition-all duration-500 ease-in-out hover:text-darkbrown ${
+                selected == sub ? "text-darkbrown" : "text-faded"
+              }
+                `}
               style={{ animationDelay: `${100 * (index + 1)}ms` }}
+              onClick={() => setSelected(sub)}
             >
               {sub}
             </p>
