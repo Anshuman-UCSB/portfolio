@@ -17,11 +17,13 @@ function Header({ name, subsections }: HeaderProps) {
       }`}
     >
       <p
-        className={`cursor-pointer inline-block transition-all duration-500 ease-in-out font-semibold text-5xl hover:text-darkbrown ${
-          isSelected ? "text-darkbrown" : "text-faded"
-        }`}
+        className={`cursor-pointer inline-block transition-all duration-500 ease-in-out
+             font-semibold text-5xl hover:text-darkbrown ${
+               isSelected ? "text-darkbrown" : "text-faded"
+             }`}
         onClick={() => setSelected(name)}
         style={{ width: "auto" }}
+        key={name}
       >
         {name}
       </p>
@@ -61,7 +63,7 @@ function Headers() {
           <div
             className="animate-fade-in opacity-0 transition-transform duration-500 ease-in-out"
             style={{ animationDelay: `${200 * (index + 1)}ms` }}
-            key={name}
+            key={`${name}-header`}
           >
             <Header name={name} subsections={subsections} />
           </div>
