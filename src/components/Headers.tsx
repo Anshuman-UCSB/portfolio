@@ -50,9 +50,16 @@ function Header({ name, subsections }: HeaderProps) {
 
 function Headers() {
   const headers = [
-    { name: "ABOUT", subsections: ["Background", "Experience", "Education"] },
+    {
+      name: "ABOUT",
+      subsections: ["Background", "Experience", "Coursework"],
+    },
     { name: "PROJECTS", subsections: ["Web Apps", "Mobile Apps", "Other"] },
-    { name: "CONTACT", subsections: ["Email", "LinkedIn", "Twitter"] },
+    { name: "ACHIEVEMENTS" },
+    {
+      name: "CONTACT",
+      subsections: ["Personal Info", "Links", "Resume"],
+    },
   ];
 
   return (
