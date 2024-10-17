@@ -1,11 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Latex from "react-latex-next";
 import "katex/dist/katex.min.css";
+import { Socket } from "socket.io-client";
 
-const UserView: React.FC<{ name: string }> = ({ name }) => {
+const UserView: React.FC<{ name: string; socket: Socket }> = ({
+  name,
+  socket,
+}) => {
   const [equation, setEquation] = useState("1+2=3");
   const [submitted, setSubmitted] = useState(false);
   const [waiting, setWaiting] = useState(false);
+
+  useEffect(() => {
+    socket.on("next_question", () => {
+      console.log("Next question");
+      setWaiting(false);
+      setSubmitted(false);
+    });
+  }, []);
 
   return (
     <div className="w-full max-w-md space-y-6">

@@ -1,7 +1,6 @@
 import React from "react";
 
 interface AdminViewProps {
-  onGameOver: () => void;
   name: string;
 }
 
@@ -10,7 +9,7 @@ const API_URL =
     ? import.meta.env.VITE_PROD_API
     : import.meta.env.VITE_DEV_API;
 
-const AdminView: React.FC<AdminViewProps> = ({ onGameOver, name }) => {
+const AdminView: React.FC<AdminViewProps> = ({ name }) => {
   const startGame = async () => {
     const response = await fetch(`${API_URL}/start_game`, {
       method: "POST",
@@ -43,6 +42,22 @@ const AdminView: React.FC<AdminViewProps> = ({ onGameOver, name }) => {
     }
   };
 
+  const nextQuestion = async () => {
+    const response = await fetch(`${API_URL}/next_question`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name }),
+    });
+    const data = await response.json();
+    if (data.error) {
+      console.error(data.message);
+    } else {
+      console.log(data);
+    }
+  };
+
   return (
     <div className="w-full max-w-md space-y-6">
       <h2 className="text-3xl font-bold mb-6">Admin Controls</h2>
@@ -52,7 +67,10 @@ const AdminView: React.FC<AdminViewProps> = ({ onGameOver, name }) => {
       >
         Start Game
       </button>
-      <button className="w-full px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 text-xl">
+      <button
+        className="w-full px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 text-xl"
+        onClick={nextQuestion}
+      >
         Start Next Question
       </button>
       <button className="w-full px-6 py-3 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 text-xl">

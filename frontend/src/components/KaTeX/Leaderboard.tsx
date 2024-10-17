@@ -1,40 +1,44 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { Socket } from "socket.io-client";
 
 interface LeaderboardProps {
   currentPlayerName: string;
-  updateTrigger: number;
+  socket: Socket;
 }
 
 const Leaderboard: React.FC<LeaderboardProps> = ({
   currentPlayerName,
-  updateTrigger,
+  socket,
 }) => {
   const [sortedScores, setSortedScores] = React.useState<
     { name: string; score: number }[]
   >([]);
 
-  React.useEffect(() => {
-    const fetchLeaderboard = async () => {
-      try {
-        const API_URL =
-          import.meta.env.VITE_ENV === "PROD"
-            ? import.meta.env.VITE_PROD_API
-            : import.meta.env.VITE_DEV_API;
-        const response = await fetch(`${API_URL}/leaderboard`);
-        const data = await response.json();
-        const scores = Object.entries(data).map(([name, score]) => ({
-          name,
-          score: score as number,
-        }));
-        const sorted = scores.sort((a, b) => b.score - a.score);
-        setSortedScores(sorted);
-      } catch (error) {
-        console.error("Error fetching leaderboard:", error);
-      }
-    };
-
+  const fetchLeaderboard = async () => {
+    try {
+      const API_URL =
+        import.meta.env.VITE_ENV === "PROD"
+          ? import.meta.env.VITE_PROD_API
+          : import.meta.env.VITE_DEV_API;
+      const response = await fetch(`${API_URL}/leaderboard`);
+      const data = await response.json();
+      const scores = Object.entries(data).map(([name, score]) => ({
+        name,
+        score: score as number,
+      }));
+      const sorted = scores.sort((a, b) => b.score - a.score);
+      setSortedScores(sorted);
+    } catch (error) {
+      console.error("Error fetching leaderboard:", error);
+    }
+  };
+  useEffect(() => {
     fetchLeaderboard();
-  }, [updateTrigger]); // Add updateTrigger to the dependency array
+    socket.on("update_leaderboard", () => {
+      console.log("Update leaderboard");
+      fetchLeaderboard();
+    });
+  }, []);
 
   return (
     <div className="bg-white p-4 rounded-lg shadow-md">

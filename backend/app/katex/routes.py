@@ -35,17 +35,23 @@ class GameState:
         self.leaderboard[name] += int(
             1000 / (1 + 0.05 * (time() - self.last_question_time))
         )
-        self.emit_update()
+        self.emit_update("update_leaderboard")
 
     def start_game(self):
         print("Game started by admin")
         self.active = True
-        self.emit_update()
+        self.last_question_time = time()
+        self.emit_update("start_game")
+
+    def next_question(self):
+        self.current_question += 1
+        self.last_question_time = time()
+        self.emit_update("update_question")
 
     def end_game(self):
         print("Game ended by admin")
         self.active = False
-        self.emit_update()
+        self.emit_update("end_game")
 
     def register(self, name):
         if self.active:
@@ -53,10 +59,10 @@ class GameState:
         if name in self.leaderboard:
             return "Name already registered"
         self.leaderboard[name] = 0
-        self.emit_update()
+        self.emit_update("update_leaderboard")
 
-    def emit_update(self):
-        socketio.emit("update_leaderboard", namespace="/api/katex/socket")
+    def emit_update(self, message):
+        socketio.emit(message, namespace="/api/katex/socket")
 
 
 gamestate = GameState()
@@ -82,33 +88,6 @@ def register():
             )
     else:
         return jsonify({"message": "Name is required", "error": True}), 400
-
-
-@katex_bp.route("/start_game", methods=["POST"])
-def start_game():
-    data = request.json
-    name = data.get("name")
-    if gamestate.active:
-        return jsonify({"message": "Game is already active", "error": True}), 400
-    if isAdmin(name):
-        gamestate.start_game()
-        return jsonify({"message": "Game started", "error": False})
-    else:
-        return (
-            jsonify(
-                {"message": "You are not authorized to start the game", "error": True}
-            ),
-            401,
-        )
-
-
-@katex_bp.route("/end_game", methods=["POST"])
-def end_game():
-    data = request.json
-    name = data.get("name")
-    if isAdmin(name):
-        gamestate.end_game()
-        return jsonify({"message": "Game ended", "error": False})
 
 
 @katex_bp.route("/question", methods=["GET"])
@@ -143,3 +122,46 @@ def get_leaderboard():
 @katex_bp.route("/", methods=["GET"])
 def index():
     return "Ping pong!"
+
+
+# ADMIN ROUTES
+
+
+@katex_bp.route("/start_game", methods=["POST"])
+def start_game():
+    data = request.json
+    name = data.get("name")
+    if gamestate.active:
+        return jsonify({"message": "Game is already active", "error": True}), 400
+    if isAdmin(name):
+        gamestate.start_game()
+        return jsonify({"message": "Game started", "error": False})
+    else:
+        return (
+            jsonify(
+                {"message": "You are not authorized to start the game", "error": True}
+            ),
+            401,
+        )
+
+
+@katex_bp.route("/end_game", methods=["POST"])
+def end_game():
+    data = request.json
+    name = data.get("name")
+    if isAdmin(name):
+        gamestate.end_game()
+        return jsonify({"message": "Game ended", "error": False})
+
+
+@katex_bp.route("/next_question", methods=["POST"])
+def next_question():
+    data = request.json
+    name = data.get("name")
+    if isAdmin(name):
+        gamestate.next_question()
+        return jsonify({"message": "Next question", "error": False})
+    return (
+        jsonify({"message": "You are not authorized for this", "error": True}),
+        401,
+    )

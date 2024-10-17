@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Leaderboard from "./Leaderboard";
 import AdminView from "./AdminView";
 import UserView from "./UserView";
@@ -16,16 +16,22 @@ const socket = io(
     : import.meta.env.VITE_DEV_API + "/socket"
 );
 
-function GameStage({ name, onGameOver, isAdmin }: GameStageProps) {
-  const [updateTrigger, setUpdateTrigger] = useState(0);
-
+function GameStage({ name, isAdmin }: GameStageProps) {
   useEffect(() => {
     socket.on("connect", () => {
       console.log("Connected to server");
     });
     socket.on("update_leaderboard", () => {
       console.log("Update leaderboard");
-      setUpdateTrigger((prev) => prev + 1);
+    });
+    socket.on("start_game", () => {
+      console.log("Start game");
+    });
+    socket.on("end_game", () => {
+      console.log("End game");
+    });
+    socket.on("next_question", () => {
+      console.log("Next question");
     });
   }, []);
 
@@ -48,9 +54,9 @@ function GameStage({ name, onGameOver, isAdmin }: GameStageProps) {
           {/* Right side - User/Admin View */}
           <div className="w-1/2 p-8 flex flex-col items-center justify-center">
             {isAdmin ? (
-              <AdminView onGameOver={onGameOver} name={name} />
+              <AdminView name={name} />
             ) : (
-              <UserView name={name} />
+              <UserView name={name} socket={socket} />
             )}
           </div>
         </div>
@@ -58,7 +64,7 @@ function GameStage({ name, onGameOver, isAdmin }: GameStageProps) {
 
       {/* Leaderboard */}
       <div className="w-1/4 min-w-[250px] p-4 bg-gray-100">
-        <Leaderboard currentPlayerName={name} updateTrigger={updateTrigger} />
+        <Leaderboard currentPlayerName={name} socket={socket} />
       </div>
     </div>
   );
