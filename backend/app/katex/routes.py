@@ -1,8 +1,8 @@
 from flask import Blueprint, jsonify, request
 from collections import defaultdict
 import hashlib
+from . import katex_bp
 
-katex_bp = Blueprint("katex", __name__)
 
 HASHED_ADMIN_NAME = "1b1ea2d690e07178af73f5687180739590e4ea72b7184101b3a19ad8b8406ffa"
 
@@ -88,3 +88,8 @@ def get_leaderboard():
 @katex_bp.route("/submit_answer", methods=["POST"])
 def submit_answer():
     return jsonify({"result": "correct"})
+
+
+@katex_bp.route("/", methods=["GET"])
+def index():
+    return "Ping pong!"
