@@ -51,6 +51,24 @@ def register():
         return jsonify({"message": "Name is required", "error": True}), 400
 
 
+@katex_bp.route("/start_game", methods=["POST"])
+def start_game():
+    data = request.json
+    name = data.get("name")
+    if leaderboard.active:
+        return jsonify({"message": "Game is already active", "error": True}), 400
+    if isAdmin(name):
+        leaderboard.start_game()
+        return jsonify({"message": "Game started", "error": False})
+    else:
+        return (
+            jsonify(
+                {"message": "You are not authorized to start the game", "error": True}
+            ),
+            401,
+        )
+
+
 @katex_bp.route("/question", methods=["GET"])
 def get_question():
     return jsonify(
