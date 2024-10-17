@@ -20,8 +20,8 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      # Step 3: SSH into VPS and deploy
-      - name: Deploy to VPS
+      # Step 3: SSH into VPS and deploy frontend
+      - name: Deploy frontend to VPS
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
             cd /home/biggergig/hosting/portfolio
@@ -29,4 +29,14 @@ jobs:
             cd /home/biggergig/hosting/portfolio/frontend 
             npm install  # To make sure dependencies are up to date
             npm run build
+          EOF
+
+
+      # Step 4: SSH into VPS and deploy backend
+      - name: Deploy backend to VPS
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
+            cd /home/biggergig/hosting/portfolio/backend
+            git pull
+            sudo systemctl restart anshumandash  # Restart your systemctl service
           EOF

@@ -9,7 +9,7 @@ from sympy.parsing.latex import parse_latex
 from random import shuffle
 
 HASHED_ADMIN_NAME = "1b1ea2d690e07178af73f5687180739590e4ea72b7184101b3a19ad8b8406ffa"
-
+LAST_RAN=time()
 
 def isAdmin(name):
     return hashlib.sha256(name.encode()).hexdigest() == HASHED_ADMIN_NAME
@@ -165,7 +165,7 @@ def get_leaderboard():
 
 @katex_bp.route("/", methods=["GET"])
 def index():
-    return "Ping pong!"
+    return f"This was last ran at {LAST_RAN}"
 
 
 # ADMIN ROUTES
