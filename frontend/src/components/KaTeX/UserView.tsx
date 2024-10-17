@@ -3,7 +3,7 @@ import Latex from "react-latex-next";
 import "katex/dist/katex.min.css";
 
 const UserView: React.FC<{ name: string }> = ({ name }) => {
-  const [equation, setEquation] = useState("f(x) = x^2");
+  const [equation, setEquation] = useState("1+2=3");
   const [submitted, setSubmitted] = useState(false);
   const [waiting, setWaiting] = useState(false);
 
@@ -27,6 +27,7 @@ const UserView: React.FC<{ name: string }> = ({ name }) => {
           </div>
         </div>
       </div>
+
       <button
         className={`w-full px-6 py-3 ${
           submitted
