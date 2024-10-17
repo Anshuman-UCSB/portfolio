@@ -4,6 +4,7 @@ interface JoinStageProps {
   name: string;
   setName: (name: string) => void;
   onJoin: () => void;
+  setIsAdmin: (isAdmin: boolean) => void;
 }
 
 const API_URL =
@@ -11,7 +12,7 @@ const API_URL =
     ? import.meta.env.VITE_PROD_API
     : import.meta.env.VITE_DEV_API;
 
-function JoinStage({ name, setName, onJoin }: JoinStageProps) {
+function JoinStage({ name, setName, onJoin, setIsAdmin }: JoinStageProps) {
   const [error, setError] = useState<string | null>(null);
   const tryJoin = async () => {
     if (name.trim()) {
@@ -28,6 +29,7 @@ function JoinStage({ name, setName, onJoin }: JoinStageProps) {
           setError(data.message);
         } else {
           setError(null);
+          setIsAdmin(data.isAdmin);
           onJoin();
         }
       } catch (error) {
@@ -51,6 +53,11 @@ function JoinStage({ name, setName, onJoin }: JoinStageProps) {
         value={name}
         onChange={(e) => setName(e.target.value.slice(0, 15))}
         maxLength={15}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            tryJoin();
+          }
+        }}
       />
       <button
         className="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 text-xl"

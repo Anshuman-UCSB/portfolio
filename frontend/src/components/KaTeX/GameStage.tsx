@@ -1,11 +1,13 @@
 import { useState } from "react";
+import Leaderboard from "./Leaderboard";
 
 interface GameStageProps {
   name: string;
   onGameOver: () => void;
+  isAdmin: boolean;
 }
 
-function GameStage({ name, onGameOver }: GameStageProps) {
+function GameStage({ name, onGameOver, isAdmin }: GameStageProps) {
   const [score, setScore] = useState(0);
 
   const handleAnswer = (correct: boolean) => {
@@ -20,8 +22,8 @@ function GameStage({ name, onGameOver }: GameStageProps) {
       <p className="font-bold text-7xl">
         Ka<del className="text-gray-500">hoot</del>TeX
       </p>
-      <p className="text-xl">Welcome, {name}!</p>
-      <p className="text-2xl">Score: {score}</p>
+
+      <Leaderboard currentPlayerName={name} />
 
       {/* Placeholder for LaTeX equation */}
       <div className="text-2xl">LaTeX equation goes here</div>

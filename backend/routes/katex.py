@@ -80,6 +80,11 @@ def get_question():
     )
 
 
+@katex_bp.route("/leaderboard", methods=["GET"])
+def get_leaderboard():
+    return jsonify(leaderboard.leaderboard)
+
+
 @katex_bp.route("/submit_answer", methods=["POST"])
 def submit_answer():
     return jsonify({"result": "correct"})
