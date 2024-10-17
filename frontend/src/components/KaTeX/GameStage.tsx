@@ -11,11 +11,13 @@ interface GameStageProps {
   isAdmin: boolean;
 }
 
-const socket = io(
-  import.meta.env.VITE_ENV === "PROD"
-    ? import.meta.env.VITE_PROD_API + "/socket"
-    : import.meta.env.VITE_DEV_API + "/socket"
-);
+// const socket = io(
+//   // import.meta.env.VITE_ENV === "PROD"
+//   //   ? import.meta.env.VITE_PROD_API + "/socket"
+//   //   : import.meta.env.VITE_DEV_API + "/socket"
+//   '/api/katex/socket'
+// );
+const socket = io("https://anshumandash.com/api/katex/socket", { transports: ['websocket', 'polling']});
 
 const API_URL = "/api/katex";
 // import.meta.env.VITE_ENV === "PROD"
@@ -49,7 +51,6 @@ function GameStage({ name, isAdmin, onGameOver }: GameStageProps) {
       console.log("Next question");
       fetchQuestion();
     };
-
     socket.on("connect", handleConnect);
     socket.on("start_game", handleStartGame);
     socket.on("end_game", handleEndGame);
