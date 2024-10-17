@@ -32,7 +32,9 @@ class GameState:
         return self.questions[self.current_question]
 
     def update_correct(self, name):
-        self.leaderboard[name] += 1
+        self.leaderboard[name] += int(
+            1000 / (1 + 0.05 * (time() - self.last_question_time))
+        )
         self.emit_update()
 
     def start_game(self):
