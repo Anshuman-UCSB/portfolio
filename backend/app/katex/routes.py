@@ -6,6 +6,7 @@ from .. import socketio
 from time import time
 import sympy as sp
 from sympy.parsing.latex import parse_latex
+from random import shuffle
 
 HASHED_ADMIN_NAME = "1b1ea2d690e07178af73f5687180739590e4ea72b7184101b3a19ad8b8406ffa"
 
@@ -17,9 +18,18 @@ def isAdmin(name):
 class GameState:
     def __init__(self):
         self.questions = [
-            "c = a^2 + b_1",
-            "x = \dfrac{-b \pm \sqrt{b^2 - 4ac}}{2a}",
-            "f(x) = x^2",
+            r"c = a^2 + b_1",
+            r"x = \dfrac{-b \pm \sqrt{b^2 - 4ac}}{2a}",
+            r"f(x) = x^2",
+            r"A = \dfrac{\pi r^2}{2}",
+            r"p(x) = x^8+x^7+x^6+x^5",
+            r"f(x) = \sin(x)\times \cos(x)",
+            r"\sin^2(x) + \tan^{-1}(x)",
+            r"\binom{n}{k} = \frac{n!}{k!(n-k)!}",
+            r"\frac{1+\frac{a}{b}}{1+\frac{1}{1+\frac{1}{a}}}",
+            r"F(x) = \int^a_b \frac{1}{3}x^3",
+            r"\lim_{x \to 0} \frac{\sin(x)}{x} = 1",
+            r"\sum_{n=1}^{\infty} \frac{1}{n^2} = \frac{\pi^2}{6}",
         ]
         self.reset()
 
@@ -67,6 +77,7 @@ class GameState:
     def start_game(self):
         print("Game started by admin")
         self.active = True
+        shuffle(self.questions)
         self.last_question_time = time()
         for name in self.leaderboard:
             self.leaderboard[name] = 0
