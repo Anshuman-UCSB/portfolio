@@ -34,25 +34,34 @@ function GameStage({ name, isAdmin, onGameOver }: GameStageProps) {
   };
 
   useEffect(() => {
-    socket.on("connect", () => {
+    const handleConnect = () => {
       console.log("Connected to server");
-    });
-    // socket.on("update_leaderboard", () => {
-    //   console.log("Update leaderboard");
-    // });
-    socket.on("start_game", () => {
+    };
+    const handleStartGame = () => {
       console.log("Start game");
       fetchQuestion();
-    });
-    socket.on("end_game", () => {
+    };
+    const handleEndGame = () => {
       console.log("End game");
       onGameOver();
-    });
-    socket.on("next_question", () => {
+    };
+    const handleNextQuestion = () => {
       console.log("Next question");
       fetchQuestion();
-    });
-  }, []);
+    };
+
+    socket.on("connect", handleConnect);
+    socket.on("start_game", handleStartGame);
+    socket.on("end_game", handleEndGame);
+    socket.on("next_question", handleNextQuestion);
+
+    return () => {
+      socket.off("connect", handleConnect);
+      socket.off("start_game", handleStartGame);
+      socket.off("end_game", handleEndGame);
+      socket.off("next_question", handleNextQuestion);
+    };
+  }, [socket]);
 
   return (
     <div className="flex h-screen">

@@ -73,9 +73,6 @@ const AdminView: React.FC<AdminViewProps> = ({ name }) => {
       >
         Start Next Question
       </button>
-      <button className="w-full px-6 py-3 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 text-xl">
-        Show Correct Answer
-      </button>
       <button
         className="w-full px-6 py-3 bg-red-500 text-white rounded-lg hover:bg-red-600 text-xl"
         onClick={endGame}

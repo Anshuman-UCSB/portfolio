@@ -13,14 +13,23 @@ const UserView: React.FC<{ name: string; socket: Socket }> = ({
   const [shakeButton, setShakeButton] = useState(false);
 
   useEffect(() => {
-    socket.on("next_question", () => {
+    const handleNextQuestion = () => {
       console.log("Next question");
       setWaiting(false);
       setSubmitted(false);
-    });
-    socket.on("start_game", () => {
+    };
+
+    const handleStartGame = () => {
       setWaiting(false);
-    });
+    };
+
+    socket.on("next_question", handleNextQuestion);
+    socket.on("start_game", handleStartGame);
+
+    return () => {
+      socket.off("next_question", handleNextQuestion);
+      socket.off("start_game", handleStartGame);
+    };
   }, [socket]);
 
   useEffect(() => {

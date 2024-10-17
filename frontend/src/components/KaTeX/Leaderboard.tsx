@@ -34,11 +34,17 @@ const Leaderboard: React.FC<LeaderboardProps> = ({
   };
   useEffect(() => {
     fetchLeaderboard();
-    socket?.on("update_leaderboard", () => {
+    const updateLeaderboardHandler = () => {
       console.log("Update leaderboard");
       fetchLeaderboard();
-    });
-  }, []);
+    };
+
+    socket?.on("update_leaderboard", updateLeaderboardHandler);
+
+    return () => {
+      socket?.off("update_leaderboard", updateLeaderboardHandler);
+    };
+  }, [socket]);
 
   return (
     <div className="bg-white p-4 rounded-lg shadow-md">

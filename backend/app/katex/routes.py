@@ -33,6 +33,16 @@ class GameState:
     def get_question(self):
         return self.questions[self.current_question]
 
+    def update_current_question(self, num=None):
+        if num is not None:
+            self.current_question = num
+        else:
+            self.current_question += 1
+        if self.current_question >= len(self.questions):
+            return
+        self.last_question_time = time()
+        self.current_question_sympy = parse_latex(self.questions[self.current_question])
+
     def isCorrect(self, answer):
         answer = answer.strip()
         print(f"Checking answer: '{answer}'")
@@ -61,17 +71,14 @@ class GameState:
         for name in self.leaderboard:
             self.leaderboard[name] = 0
         self.end_screen = False
+        self.update_current_question(0)
         self.emit_update("start_game")
 
     def next_question(self):
-        self.current_question += 1
+        self.update_current_question()
         if self.current_question >= len(self.questions):
             self.end_game()
         else:
-            self.last_question_time = time()
-            self.current_question_sympy = parse_latex(
-                self.questions[self.current_question]
-            )
             if self.active:
                 self.emit_update("next_question")
 
@@ -86,6 +93,9 @@ class GameState:
             return "Game is already active"
         if name in self.leaderboard and not self.end_screen:
             return "Name already registered"
+        if self.end_screen:
+            self.leaderboard.clear()
+            self.end_screen = False
         self.leaderboard[name] = 0
         self.emit_update("update_leaderboard")
 
