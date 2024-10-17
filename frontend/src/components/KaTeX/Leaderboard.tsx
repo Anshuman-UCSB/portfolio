@@ -16,10 +16,10 @@ const Leaderboard: React.FC<LeaderboardProps> = ({
 
   const fetchLeaderboard = async () => {
     try {
-      const API_URL =
-        import.meta.env.VITE_ENV === "PROD"
-          ? import.meta.env.VITE_PROD_API
-          : import.meta.env.VITE_DEV_API;
+      const API_URL = "/api/katex";
+      // import.meta.env.VITE_ENV === "PROD"
+      //   ? import.meta.env.VITE_PROD_API
+      //   : import.meta.env.VITE_DEV_API;
       const response = await fetch(`${API_URL}/leaderboard`);
       const data = await response.json();
       const scores = Object.entries(data).map(([name, score]) => ({

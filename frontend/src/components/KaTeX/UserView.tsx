@@ -83,10 +83,10 @@ const UserView: React.FC<{ name: string; socket: Socket }> = ({
             onClick={() => {
               setSubmitted(true);
               // Get the API URL based on the environment
-              const API_URL =
-                import.meta.env.VITE_ENV === "PROD"
-                  ? import.meta.env.VITE_PROD_API
-                  : import.meta.env.VITE_DEV_API;
+              const API_URL = "/api/katex";
+              // import.meta.env.VITE_ENV === "PROD"
+              //   ? import.meta.env.VITE_PROD_API
+              //   : import.meta.env.VITE_DEV_API;
 
               // Send a POST request to the submit endpoint
               fetch(`${API_URL}/submit_answer`, {

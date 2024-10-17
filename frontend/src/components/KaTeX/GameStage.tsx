@@ -17,10 +17,10 @@ const socket = io(
     : import.meta.env.VITE_DEV_API + "/socket"
 );
 
-const API_URL =
-  import.meta.env.VITE_ENV === "PROD"
-    ? import.meta.env.VITE_PROD_API
-    : import.meta.env.VITE_DEV_API;
+const API_URL = "/api/katex";
+// import.meta.env.VITE_ENV === "PROD"
+//   ? import.meta.env.VITE_PROD_API
+//   : import.meta.env.VITE_DEV_API;
 
 function GameStage({ name, isAdmin, onGameOver }: GameStageProps) {
   const [question, setQuestion] = useState<string>(
