@@ -42,13 +42,17 @@ def register():
     if name:
         name = name.strip()
         if isAdmin(name):
-            return jsonify({"message": f"Registered admin {name}", "error": False})
+            return jsonify(
+                {"message": f"Welcome admin!", "error": False, "isAdmin": True}
+            )
         else:
             result = leaderboard.register(name)
             if result is not None:
                 return jsonify({"message": result, "error": True}), 400
             socketio.emit("update_leaderboard", namespace="/api/katex/socket")
-            return jsonify({"message": f"Registered {name}", "error": False})
+            return jsonify(
+                {"message": f"Registered {name}", "error": False, "isAdmin": False}
+            )
     else:
         return jsonify({"message": "Name is required", "error": True}), 400
 

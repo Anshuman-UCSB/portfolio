@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import Leaderboard from "./Leaderboard";
+import AdminView from "./AdminView";
+import UserView from "./UserView";
 import io from "socket.io-client";
 
 interface GameStageProps {
@@ -15,7 +17,6 @@ const socket = io(
 );
 
 function GameStage({ name, onGameOver, isAdmin }: GameStageProps) {
-  const [score, setScore] = useState(0);
   const [updateTrigger, setUpdateTrigger] = useState(0);
 
   useEffect(() => {
@@ -28,46 +29,33 @@ function GameStage({ name, onGameOver, isAdmin }: GameStageProps) {
     });
   }, []);
 
-  const handleAnswer = (correct: boolean) => {
-    if (correct) {
-      setScore((prevScore) => prevScore + 1);
-    }
-    // You can add logic here to move to the next question
-  };
-
   return (
-    <div className="p-16 flex flex-col items-center justify-center space-y-6">
-      <p className="font-bold text-7xl">
-        Ka<del className="text-gray-500">hoot</del>TeX
-      </p>
+    <div className="flex h-screen">
+      <div className="flex-grow flex flex-col">
+        <div className="text-center py-8">
+          <p className="font-bold text-7xl">
+            Ka<del className="text-gray-500">hoot</del>TeX
+          </p>
+        </div>
+        <div className="flex flex-grow">
+          {/* Left side - Current Question */}
+          <div className="w-1/2 p-8 flex flex-col items-center justify-center">
+            <h2 className="text-3xl font-bold mb-6">Current Question</h2>
+            <div className="text-2xl mb-8">LaTeX equation goes here</div>
+            <p className="text-xl">Question text or additional information</p>
+          </div>
 
-      <Leaderboard currentPlayerName={name} updateTrigger={updateTrigger} />
-
-      {/* Placeholder for LaTeX equation */}
-      <div className="text-2xl">LaTeX equation goes here</div>
-
-      {/* Placeholder for answer options */}
-      <div className="space-y-4">
-        <button
-          className="w-full px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 text-xl"
-          onClick={() => handleAnswer(true)}
-        >
-          Correct Answer
-        </button>
-        <button
-          className="w-full px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 text-xl"
-          onClick={() => handleAnswer(false)}
-        >
-          Incorrect Answer
-        </button>
+          {/* Right side - User/Admin View */}
+          <div className="w-1/2 p-8 flex flex-col items-center justify-center">
+            {isAdmin ? <AdminView onGameOver={onGameOver} /> : <UserView />}
+          </div>
+        </div>
       </div>
 
-      <button
-        className="px-6 py-3 bg-red-500 text-white rounded-lg hover:bg-red-600 text-xl"
-        onClick={onGameOver}
-      >
-        End Game
-      </button>
+      {/* Leaderboard */}
+      <div className="w-1/4 min-w-[250px] p-4 bg-gray-100">
+        <Leaderboard currentPlayerName={name} updateTrigger={updateTrigger} />
+      </div>
     </div>
   );
 }

@@ -29,6 +29,7 @@ function JoinStage({ name, setName, onJoin, setIsAdmin }: JoinStageProps) {
           setError(data.message);
         } else {
           setError(null);
+          console.log(data);
           setIsAdmin(data.isAdmin);
           onJoin();
         }
