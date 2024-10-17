@@ -24,8 +24,9 @@ jobs:
       - name: Deploy to VPS
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
-            cd /home/biggergig/hosting/portfolio/frontend # Update this to the directory of your project on the VPS
+            cd /home/biggergig/hosting/portfolio
             git pull
+            cd /home/biggergig/hosting/portfolio/frontend 
             npm install  # To make sure dependencies are up to date
             npm run build
           EOF
