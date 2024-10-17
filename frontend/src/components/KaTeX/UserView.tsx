@@ -10,6 +10,7 @@ const UserView: React.FC<{ name: string; socket: Socket }> = ({
   const [equation, setEquation] = useState("1+2=3");
   const [submitted, setSubmitted] = useState(false);
   const [waiting, setWaiting] = useState(false);
+  const [shakeButton, setShakeButton] = useState(false);
 
   useEffect(() => {
     socket.on("next_question", () => {
@@ -18,6 +19,16 @@ const UserView: React.FC<{ name: string; socket: Socket }> = ({
       setSubmitted(false);
     });
   }, [socket]);
+
+  useEffect(() => {
+    if (shakeButton) {
+      console.log("Button shaking");
+      const timer = setTimeout(() => {
+        setShakeButton(false);
+      }, 820); // Slightly longer than the animation duration
+      return () => clearTimeout(timer);
+    }
+  }, [shakeButton]);
 
   return (
     <>
@@ -54,7 +65,9 @@ const UserView: React.FC<{ name: string; socket: Socket }> = ({
               submitted
                 ? "bg-gray-400 cursor-not-allowed"
                 : "bg-blue-500 hover:bg-blue-600"
-            } text-white rounded-lg text-xl`}
+            } text-white rounded-lg text-xl ${
+              shakeButton ? "shake-animation bg-red-500" : ""
+            } transition-colors duration-300`}
             onClick={() => {
               setSubmitted(true);
               // Get the API URL based on the environment
@@ -83,15 +96,17 @@ const UserView: React.FC<{ name: string; socket: Socket }> = ({
                     setEquation("1+2=3");
                   } else {
                     setSubmitted(false);
+                    setShakeButton(true);
                   }
                 })
                 .catch((error) => {
                   console.error("Error submitting answer:", error);
+                  setSubmitted(false);
                 });
             }}
             disabled={submitted}
           >
-            Submit
+            {shakeButton ? "Incorrect" : "Submit"}
           </button>
         </div>
       )}
