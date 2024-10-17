@@ -21,7 +21,12 @@ class Leaderboard:
         self.active = False
 
     def start_game(self):
+        print("Game started by admin")
         self.active = True
+
+    def end_game(self):
+        print("Game ended by admin")
+        self.active = False
 
     def register(self, name):
         if self.active:
@@ -73,6 +78,15 @@ def start_game():
             ),
             401,
         )
+
+
+@katex_bp.route("/end_game", methods=["POST"])
+def end_game():
+    data = request.json
+    name = data.get("name")
+    if isAdmin(name):
+        leaderboard.end_game()
+        return jsonify({"message": "Game ended", "error": False})
 
 
 @katex_bp.route("/question", methods=["GET"])

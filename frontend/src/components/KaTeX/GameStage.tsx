@@ -47,7 +47,11 @@ function GameStage({ name, onGameOver, isAdmin }: GameStageProps) {
 
           {/* Right side - User/Admin View */}
           <div className="w-1/2 p-8 flex flex-col items-center justify-center">
-            {isAdmin ? <AdminView onGameOver={onGameOver} /> : <UserView />}
+            {isAdmin ? (
+              <AdminView onGameOver={onGameOver} name={name} />
+            ) : (
+              <UserView />
+            )}
           </div>
         </div>
       </div>
