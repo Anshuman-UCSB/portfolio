@@ -4,7 +4,8 @@ import hashlib
 from . import katex_bp
 from .. import socketio
 from time import time
-
+import sympy as sp
+from sympy.parsing.latex import parse_latex
 
 HASHED_ADMIN_NAME = "1b1ea2d690e07178af73f5687180739590e4ea72b7184101b3a19ad8b8406ffa"
 
@@ -15,21 +16,35 @@ def isAdmin(name):
 
 class GameState:
     def __init__(self):
-        self.reset()
         self.questions = [
             "c = a^2 + b_1",
             "x = \dfrac{-b \pm \sqrt{b^2 - 4ac}}{2a}",
             "f(x) = x^2",
         ]
+        self.reset()
 
     def reset(self):
         self.leaderboard = defaultdict(int)
         self.active = False
-        self.current_question = 0
-        self.last_question_time = time()
+        self.current_question = -1
+        self.next_question()
 
     def get_question(self):
         return self.questions[self.current_question]
+
+    def isCorrect(self, answer):
+        print("Checking answer:", answer)
+        try:
+            expr = parse_latex(answer)
+            print("Comparing", expr, self.current_question_sympy)
+            try:
+                return self.current_question_sympy.equals(expr)
+            except TypeError as te:
+                print("TypeError when comparing:", te)
+                return False
+        except Exception as e:
+            print("Error parsing or comparing:", e)
+            return False
 
     def update_correct(self, name):
         self.leaderboard[name] += int(
@@ -45,8 +60,15 @@ class GameState:
 
     def next_question(self):
         self.current_question += 1
-        self.last_question_time = time()
-        self.emit_update("next_question")
+        if self.current_question >= len(self.questions):
+            self.end_game()
+        else:
+            self.last_question_time = time()
+            self.current_question_sympy = parse_latex(
+                self.questions[self.current_question]
+            )
+            if self.active:
+                self.emit_update("next_question")
 
     def end_game(self):
         print("Game ended by admin")
@@ -93,13 +115,7 @@ def register():
 
 @katex_bp.route("/question", methods=["GET"])
 def get_question():
-    return jsonify(
-        {
-            "question": "What is the derivative of x^2?",
-            "options": ["2x", "x^2", "2", "x"],
-            "correct_answer": "2x",
-        }
-    )
+    return jsonify({"question": gamestate.get_question()})
 
 
 @katex_bp.route("/submit_answer", methods=["POST"])
@@ -108,7 +124,7 @@ def submit_answer():
     name = data.get("name")
     answer = data.get("answer")
     print("submit answer:", name, answer)
-    if answer == "2x":
+    if gamestate.isCorrect(answer):
         gamestate.update_correct(name)
         return jsonify({"result": "correct"})
     else:

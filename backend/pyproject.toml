@@ -11,6 +11,8 @@ python = "^3.10"
 flask = "^3.0.3"
 flask-cors = "^5.0.0"
 flask-socketio = "^5.4.1"
+sympy = "^1.13.3"
+antlr4-python3-runtime = "4.11"
 
 
 [build-system]
