@@ -1,10 +1,12 @@
 from flask import Flask
 from flask_cors import CORS
-from config import Config
+from routes.katex import katex_bp
 
 app = Flask(__name__)
-app.config.from_object(Config)
 CORS(app)
+
+# Register the blueprint
+app.register_blueprint(katex_bp, url_prefix="/api/katex")
 
 
 @app.route("/")

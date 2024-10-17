@@ -28,7 +28,7 @@ dist-ssr
 __pycache__/
 *.py[cod]
 *$py.class
-venv/
+.venv/
 
 # Flask
 instance/
