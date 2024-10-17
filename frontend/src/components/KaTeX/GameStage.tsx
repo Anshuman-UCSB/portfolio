@@ -16,6 +16,7 @@ const socket = io(
 
 function GameStage({ name, onGameOver, isAdmin }: GameStageProps) {
   const [score, setScore] = useState(0);
+  const [updateTrigger, setUpdateTrigger] = useState(0);
 
   useEffect(() => {
     socket.on("connect", () => {
@@ -23,6 +24,7 @@ function GameStage({ name, onGameOver, isAdmin }: GameStageProps) {
     });
     socket.on("update_leaderboard", () => {
       console.log("Update leaderboard");
+      setUpdateTrigger((prev) => prev + 1);
     });
   }, []);
 
@@ -39,7 +41,7 @@ function GameStage({ name, onGameOver, isAdmin }: GameStageProps) {
         Ka<del className="text-gray-500">hoot</del>TeX
       </p>
 
-      <Leaderboard currentPlayerName={name} />
+      <Leaderboard currentPlayerName={name} updateTrigger={updateTrigger} />
 
       {/* Placeholder for LaTeX equation */}
       <div className="text-2xl">LaTeX equation goes here</div>

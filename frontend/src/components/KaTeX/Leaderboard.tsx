@@ -2,9 +2,13 @@ import React from "react";
 
 interface LeaderboardProps {
   currentPlayerName: string;
+  updateTrigger: number;
 }
 
-const Leaderboard: React.FC<LeaderboardProps> = ({ currentPlayerName }) => {
+const Leaderboard: React.FC<LeaderboardProps> = ({
+  currentPlayerName,
+  updateTrigger,
+}) => {
   const [sortedScores, setSortedScores] = React.useState<
     { name: string; score: number }[]
   >([]);
@@ -30,7 +34,7 @@ const Leaderboard: React.FC<LeaderboardProps> = ({ currentPlayerName }) => {
     };
 
     fetchLeaderboard();
-  }, []);
+  }, [updateTrigger]); // Add updateTrigger to the dependency array
 
   return (
     <div className="bg-white p-4 rounded-lg shadow-md">
