@@ -21,18 +21,18 @@ function GameStage({ name, isAdmin }: GameStageProps) {
     socket.on("connect", () => {
       console.log("Connected to server");
     });
-    socket.on("update_leaderboard", () => {
-      console.log("Update leaderboard");
-    });
-    socket.on("start_game", () => {
-      console.log("Start game");
-    });
-    socket.on("end_game", () => {
-      console.log("End game");
-    });
-    socket.on("next_question", () => {
-      console.log("Next question");
-    });
+    // socket.on("update_leaderboard", () => {
+    //   console.log("Update leaderboard");
+    // });
+    // socket.on("start_game", () => {
+    //   console.log("Start game");
+    // });
+    // socket.on("end_game", () => {
+    //   console.log("End game");
+    // });
+    // socket.on("next_question", () => {
+    //   console.log("Next question");
+    // });
   }, []);
 
   return (

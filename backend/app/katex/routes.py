@@ -46,7 +46,7 @@ class GameState:
     def next_question(self):
         self.current_question += 1
         self.last_question_time = time()
-        self.emit_update("update_question")
+        self.emit_update("next_question")
 
     def end_game(self):
         print("Game ended by admin")
@@ -62,6 +62,7 @@ class GameState:
         self.emit_update("update_leaderboard")
 
     def emit_update(self, message):
+        print("Emitting update:", message)
         socketio.emit(message, namespace="/api/katex/socket")
 
 
