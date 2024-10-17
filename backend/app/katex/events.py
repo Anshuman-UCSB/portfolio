@@ -1,13 +1,11 @@
 from .. import socketio
 
-# SOCKET STUFF BELOW
 
-
-@socketio.on("connect")
+@socketio.on("connect", namespace="/api/katex/socket")
 def handle_connect(data):
     print("Client connected")
 
 
-@socketio.on("disconnect")
-def handle_disconnect(data):
+@socketio.on("disconnect", namespace="/api/katex/socket")
+def handle_disconnect():
     print("Client disconnected")

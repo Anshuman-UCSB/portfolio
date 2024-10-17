@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, request
 from collections import defaultdict
 import hashlib
 from . import katex_bp
+from .. import socketio
 
 
 HASHED_ADMIN_NAME = "1b1ea2d690e07178af73f5687180739590e4ea72b7184101b3a19ad8b8406ffa"
@@ -46,6 +47,7 @@ def register():
             result = leaderboard.register(name)
             if result is not None:
                 return jsonify({"message": result, "error": True}), 400
+            socketio.emit("update_leaderboard", namespace="/api/katex/socket")
             return jsonify({"message": f"Registered {name}", "error": False})
     else:
         return jsonify({"message": "Name is required", "error": True}), 400

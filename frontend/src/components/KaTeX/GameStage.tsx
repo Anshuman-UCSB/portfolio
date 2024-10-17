@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Leaderboard from "./Leaderboard";
+import io from "socket.io-client";
 
 interface GameStageProps {
   name: string;
@@ -7,8 +8,23 @@ interface GameStageProps {
   isAdmin: boolean;
 }
 
+const socket = io(
+  import.meta.env.VITE_ENV === "PROD"
+    ? import.meta.env.VITE_PROD_API + "/socket"
+    : import.meta.env.VITE_DEV_API + "/socket"
+);
+
 function GameStage({ name, onGameOver, isAdmin }: GameStageProps) {
   const [score, setScore] = useState(0);
+
+  useEffect(() => {
+    socket.on("connect", () => {
+      console.log("Connected to server");
+    });
+    socket.on("update_leaderboard", () => {
+      console.log("Update leaderboard");
+    });
+  }, []);
 
   const handleAnswer = (correct: boolean) => {
     if (correct) {
