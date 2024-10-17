@@ -36,7 +36,11 @@ function KaTeX() {
         <GameStage name={name} onGameOver={handleGameOver} isAdmin={isAdmin} />
       )}
       {stage === "gameover" && (
-        <GameOverStage name={name} onPlayAgain={handlePlayAgain} />
+        <GameOverStage
+          name={name}
+          onPlayAgain={handlePlayAgain}
+          isAdmin={isAdmin}
+        />
       )}
     </>
   );
