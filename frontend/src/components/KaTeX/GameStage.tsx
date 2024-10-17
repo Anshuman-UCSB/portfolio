@@ -50,7 +50,7 @@ function GameStage({ name, onGameOver, isAdmin }: GameStageProps) {
             {isAdmin ? (
               <AdminView onGameOver={onGameOver} name={name} />
             ) : (
-              <UserView />
+              <UserView name={name} />
             )}
           </div>
         </div>

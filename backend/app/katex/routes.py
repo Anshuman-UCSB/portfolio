@@ -100,14 +100,21 @@ def get_question():
     )
 
 
+@katex_bp.route("/submit_answer", methods=["POST"])
+def submit_answer():
+    data = request.json
+    name = data.get("name")
+    answer = data.get("answer")
+    print("submit answer:", name, answer)
+    if answer == "2x":
+        return jsonify({"result": "correct"})
+    else:
+        return jsonify({"result": "incorrect"})
+
+
 @katex_bp.route("/leaderboard", methods=["GET"])
 def get_leaderboard():
     return jsonify(leaderboard.leaderboard)
-
-
-@katex_bp.route("/submit_answer", methods=["POST"])
-def submit_answer():
-    return jsonify({"result": "correct"})
 
 
 @katex_bp.route("/", methods=["GET"])
