@@ -38,5 +38,6 @@ jobs:
           ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
             cd /home/biggergig/hosting/portfolio/backend
             git pull
-            sudo systemctl restart anshumandash  # Restart your systemctl service
+            whoami
+            sudo /bin/systemctl restart anshumandash  # Restart your systemctl service
           EOF
