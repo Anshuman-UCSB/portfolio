@@ -22,8 +22,10 @@ const API_URL =
     ? import.meta.env.VITE_PROD_API
     : import.meta.env.VITE_DEV_API;
 
-function GameStage({ name, isAdmin }: GameStageProps) {
-  const [question, setQuestion] = useState<string>("");
+function GameStage({ name, isAdmin, onGameOver }: GameStageProps) {
+  const [question, setQuestion] = useState<string>(
+    "\\text{Waiting for game to start...}"
+  );
 
   const fetchQuestion = async () => {
     const response = await fetch(`${API_URL}/question`);
@@ -38,17 +40,18 @@ function GameStage({ name, isAdmin }: GameStageProps) {
     // socket.on("update_leaderboard", () => {
     //   console.log("Update leaderboard");
     // });
-    // socket.on("start_game", () => {
-    //   console.log("Start game");
-    // });
-    // socket.on("end_game", () => {
-    //   console.log("End game");
-    // });
+    socket.on("start_game", () => {
+      console.log("Start game");
+      fetchQuestion();
+    });
+    socket.on("end_game", () => {
+      console.log("End game");
+      onGameOver();
+    });
     socket.on("next_question", () => {
       console.log("Next question");
       fetchQuestion();
     });
-    fetchQuestion();
   }, []);
 
   return (

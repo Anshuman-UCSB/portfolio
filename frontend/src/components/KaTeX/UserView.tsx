@@ -9,7 +9,7 @@ const UserView: React.FC<{ name: string; socket: Socket }> = ({
 }) => {
   const [equation, setEquation] = useState("1+2=3");
   const [submitted, setSubmitted] = useState(false);
-  const [waiting, setWaiting] = useState(false);
+  const [waiting, setWaiting] = useState(true);
   const [shakeButton, setShakeButton] = useState(false);
 
   useEffect(() => {
@@ -17,6 +17,9 @@ const UserView: React.FC<{ name: string; socket: Socket }> = ({
       console.log("Next question");
       setWaiting(false);
       setSubmitted(false);
+    });
+    socket.on("start_game", () => {
+      setWaiting(false);
     });
   }, [socket]);
 
