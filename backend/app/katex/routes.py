@@ -28,12 +28,14 @@ class GameState:
         self.active = False
         self.current_question = -1
         self.next_question()
+        self.end_screen = False
 
     def get_question(self):
         return self.questions[self.current_question]
 
     def isCorrect(self, answer):
-        print("Checking answer:", answer)
+        answer = answer.strip()
+        print(f"Checking answer: '{answer}'")
         try:
             expr = parse_latex(answer)
             print("Comparing", expr, self.current_question_sympy)
@@ -56,6 +58,9 @@ class GameState:
         print("Game started by admin")
         self.active = True
         self.last_question_time = time()
+        for name in self.leaderboard:
+            self.leaderboard[name] = 0
+        self.end_screen = False
         self.emit_update("start_game")
 
     def next_question(self):
@@ -73,12 +78,13 @@ class GameState:
     def end_game(self):
         print("Game ended by admin")
         self.active = False
+        self.end_screen = True
         self.emit_update("end_game")
 
     def register(self, name):
         if self.active:
             return "Game is already active"
-        if name in self.leaderboard:
+        if name in self.leaderboard and not self.end_screen:
             return "Name already registered"
         self.leaderboard[name] = 0
         self.emit_update("update_leaderboard")

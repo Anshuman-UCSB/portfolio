@@ -3,7 +3,7 @@ import { Socket } from "socket.io-client";
 
 interface LeaderboardProps {
   currentPlayerName: string;
-  socket: Socket;
+  socket?: Socket;
 }
 
 const Leaderboard: React.FC<LeaderboardProps> = ({
@@ -34,7 +34,7 @@ const Leaderboard: React.FC<LeaderboardProps> = ({
   };
   useEffect(() => {
     fetchLeaderboard();
-    socket.on("update_leaderboard", () => {
+    socket?.on("update_leaderboard", () => {
       console.log("Update leaderboard");
       fetchLeaderboard();
     });
