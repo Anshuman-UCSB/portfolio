@@ -2,7 +2,7 @@ import { SelectedProvider } from "./SelectedContext";
 import Corners from "./components/Corners";
 import Headers from "./components/Headers";
 
-function App() {
+function Portfolio() {
   return (
     <SelectedProvider>
       <div className="bg-cream w-screen h-screen p-12 relative">
@@ -15,4 +15,4 @@ function App() {
   );
 }
 
-export default App;
+export default Portfolio;
