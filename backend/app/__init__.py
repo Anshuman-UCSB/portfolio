@@ -13,8 +13,10 @@ def create_app(debug=False):
     app.debug = debug
 
     from .katex import katex_bp
+    from .chess import chess_bp
 
     app.register_blueprint(katex_bp, url_prefix="/api/katex")
+    app.register_blueprint(chess_bp, url_prefix="/api/chess")
 
     socketio.init_app(app, cors_allowed_origins="*")
     return app

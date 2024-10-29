@@ -1,15 +1,35 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Chess, Square } from "chess.js";
 import { Chessboard } from "react-chessboard";
+import { Socket } from "socket.io-client";
 
-export default function Board() {
+export default function Board({ socket }: { socket: Socket }) {
   const game = useMemo(() => new Chess(), []);
   const [fen, setFen] = useState(game.fen());
+
+  useEffect(() => {
+    const handleConnect = () => {
+      console.log("Connected to server");
+    };
+    const handleFen = (data: { fen: string }) => {
+      console.log("FEN:", data.fen);
+      game.load(data.fen);
+      setFen(data.fen);
+    };
+    socket.on("connect", handleConnect);
+    socket.on("fen", handleFen);
+
+    return () => {
+      socket.off("connect", handleConnect);
+      socket.off("fen", handleFen);
+    };
+  }, [socket]); 
 
   function makeAMove(move: { from: string; to: string; promotion?: string }) {
     const result = game.move(move);
     setFen(game.fen());
-    return result; // null if the move was illegal, the move object if the move was legal
+    socket.emit("fen", { fen: game.fen() });
+    return result;
   }
 
   function makeRandomMove() {
