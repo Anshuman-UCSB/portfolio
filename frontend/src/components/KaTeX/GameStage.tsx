@@ -17,7 +17,9 @@ interface GameStageProps {
 //   //   : import.meta.env.VITE_DEV_API + "/socket"
 //   '/api/katex/socket'
 // );
-const socket = io("https://anshumandash.com/api/katex/socket", { transports: ['websocket', 'polling']});
+const socket = io("https://anshumandash.com/api/katex/socket", {
+  transports: ["websocket", "polling"],
+});
 
 const API_URL = "/api/katex";
 // import.meta.env.VITE_ENV === "PROD"

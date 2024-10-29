@@ -1,13 +1,9 @@
-import React, { useEffect, useRef } from 'react';
-import { useSelected } from '../SelectedContext';
-import About from './About';
-import Projects from './About';
+import React, { useEffect, useRef } from "react";
+import { useSelected } from "../SelectedContext";
+import About from "./About";
+import Projects from "./About";
 
-interface ContentScrollerProps {
-  // Add any additional props if needed
-}
-
-const ContentScroller: React.FC<ContentScrollerProps> = () => {
+const ContentScroller: React.FC = () => {
   const { selected } = useSelected();
   const contentRef = useRef<HTMLDivElement>(null);
 
@@ -15,7 +11,7 @@ const ContentScroller: React.FC<ContentScrollerProps> = () => {
     if (contentRef.current && selected) {
       const targetElement = contentRef.current.querySelector(`#${selected}`);
       if (targetElement) {
-        targetElement.scrollIntoView({ behavior: 'smooth' });
+        targetElement.scrollIntoView({ behavior: "smooth" });
       }
     }
   }, [selected]);
@@ -24,7 +20,7 @@ const ContentScroller: React.FC<ContentScrollerProps> = () => {
     <div ref={contentRef} className="overflow-y-auto h-full">
       <section id="about">
         <About />
-		<Projects />
+        <Projects />
       </section>
     </div>
   );

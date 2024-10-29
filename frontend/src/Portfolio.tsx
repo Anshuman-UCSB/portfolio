@@ -1,5 +1,5 @@
 import { SelectedProvider } from "./SelectedContext";
-import About from "./components/About";
+// import About from "./components/About";
 import ContentScroller from "./components/ContentScroller";
 import Corners from "./components/Corners";
 import Headers from "./components/Headers";
