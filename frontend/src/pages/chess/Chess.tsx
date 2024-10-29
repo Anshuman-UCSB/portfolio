@@ -1,7 +1,8 @@
 import { io } from "socket.io-client";
 import Board from "./components/Board";
 
-const socket = io(":5000/api/chess/socket", {
+const port = import.meta.env.VITE_ENV === "PROD" ? 5004 : 5000;
+const socket = io(`:${port}/api/chess/socket`, {
   transports: ["websocket", "polling"],
 });
 
