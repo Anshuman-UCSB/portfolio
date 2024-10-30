@@ -3,7 +3,7 @@ import { Chess, Square } from "chess.js";
 import { Chessboard } from "react-chessboard";
 import { Socket } from "socket.io-client";
 
-export default function Board({ socket }: { socket: Socket }) {
+export default function Board({ socket, color }: { socket: Socket, color: "white" | "black" | undefined }) {
   const game = useMemo(() => new Chess(), []);
   const [fen, setFen] = useState(game.fen());
 
@@ -23,7 +23,7 @@ export default function Board({ socket }: { socket: Socket }) {
       socket.off("connect", handleConnect);
       socket.off("fen", handleFen);
     };
-  }, [socket]); 
+  }, [socket]);
 
   function makeAMove(move: { from: string; to: string; promotion?: string }) {
     const result = game.move(move);
@@ -41,6 +41,8 @@ export default function Board({ socket }: { socket: Socket }) {
   }
 
   function onDrop(sourceSquare: Square, targetSquare: Square, piece: string) {
+    if (color?.slice(0, 1) !== piece.slice(0, 1)) return false;
+
     const move = makeAMove({
       from: sourceSquare,
       to: targetSquare,
@@ -53,7 +55,7 @@ export default function Board({ socket }: { socket: Socket }) {
     return true;
   }
   return (<>
-      <Chessboard position={fen} onPieceDrop={onDrop} />
-    </>
+    <Chessboard position={fen} onPieceDrop={onDrop} boardOrientation={color} />
+  </>
   );
 }
