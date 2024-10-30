@@ -38,5 +38,7 @@ jobs:
           ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
             cd /home/biggergig/hosting/portfolio/backend
             git pull
+            source .venv/bin/activate
+            poetry install
             sudo /bin/systemctl restart anshumandash  # Restart your systemctl service
           EOF
