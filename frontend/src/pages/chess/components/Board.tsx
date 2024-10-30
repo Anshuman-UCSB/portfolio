@@ -32,13 +32,13 @@ export default function Board({ socket, color }: { socket: Socket, color: "white
     return result;
   }
 
-  function makeRandomMove() {
-    const possibleMoves = game.moves({ verbose: true });
-    if (game.isGameOver() || game.isDraw() || possibleMoves.length === 0)
-      return;
-    const randomIndex = Math.floor(Math.random() * possibleMoves.length);
-    makeAMove(possibleMoves[randomIndex]);
-  }
+  // function makeRandomMove() {
+  //   const possibleMoves = game.moves({ verbose: true });
+  //   if (game.isGameOver() || game.isDraw() || possibleMoves.length === 0)
+  //     return;
+  //   const randomIndex = Math.floor(Math.random() * possibleMoves.length);
+  //   makeAMove(possibleMoves[randomIndex]);
+  // }
 
   function onDrop(sourceSquare: Square, targetSquare: Square, piece: string) {
     if (color?.slice(0, 1) !== piece.slice(0, 1)) return false;
