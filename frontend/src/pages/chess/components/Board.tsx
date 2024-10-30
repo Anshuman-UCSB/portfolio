@@ -49,7 +49,7 @@ export default function Board({ socket }: { socket: Socket }) {
     console.log(move);
     // illegal move
     if (move === null) return false;
-    setTimeout(makeRandomMove, 200);
+    // setTimeout(makeRandomMove, 200);
     return true;
   }
   return (<>
