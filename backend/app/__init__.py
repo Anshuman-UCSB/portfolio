@@ -18,5 +18,9 @@ def create_app(debug=False):
     app.register_blueprint(katex_bp, url_prefix="/api/katex")
     app.register_blueprint(chess_bp, url_prefix="/api/chess")
 
+    @app.route("/api/heartbeat")
+    def heartbeat():
+        return "OK"
+
     socketio.init_app(app, cors_allowed_origins="*")
     return app
